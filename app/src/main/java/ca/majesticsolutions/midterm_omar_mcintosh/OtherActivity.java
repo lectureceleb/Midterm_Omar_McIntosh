@@ -47,6 +47,7 @@ public class OtherActivity extends AppCompatActivity {
                 this, android.R.layout.simple_list_item_1, history
         );
         listView.setAdapter(adapter);
+
     }
 
     public void returnToMain (View view) {
