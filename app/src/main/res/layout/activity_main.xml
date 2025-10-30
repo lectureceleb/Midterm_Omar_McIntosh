@@ -8,12 +8,52 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:background="@color/main_colour"
+        android:text="Multiplication Table"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/userInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:gravity="center_horizontal"
+        android:textSize="15sp"
+        android:hint="Enter number"
+        app:layout_constraintTop_toBottomOf="@+id/titleBar"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
+        android:id="@+id/calculateBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/button_colour"
+        android:textColor="@color/black"
+        android:text="Calculate"
+        android:onClick="calculateData"
+        app:layout_constraintTop_toBottomOf="@+id/titleBar"
+        app:layout_constraintStart_toEndOf="@+id/userInput" />
+
+    <ListView
+        android:id="@+id/mulitplicationTable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/calculateBtn"
+        />
+
+    <Button
+        android:id="@+id/switchBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/button_colour"
+        android:textColor="@color/black"
+        android:text="History"
+        android:onClick="switchActivity"
+        app:layout_constraintTop_toBottomOf="@+id/mulitplicationTable"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
