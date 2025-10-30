@@ -2,26 +2,29 @@ package ca.majesticsolutions.midterm_omar_mcintosh;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity  {
 
     EditText userNumber;
     private ArrayList<Integer> calculations = new ArrayList<>();
-    private ArrayList<Integer> calculationTransfer = new ArrayList<>();
+    private ArrayList<Integer> calculationsHistory = new ArrayList<>();
     private ArrayAdapter<Integer> adapter;
     private ListView listView;
     Button switchButton;
@@ -30,16 +33,42 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+//        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+//            return insets;
+//        });
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setupToolbar(toolbar);
+
+        toolbar.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.clear_list) {
+
+                String message = "There are currently no items to clear";
+                if (!calculations.isEmpty()) {
+                    calculations.clear();
+                    adapter.notifyDataSetChanged();
+                    message = "You have cleared all items from the list";
+                }
+                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+            return false;
         });
 
+
+        initializeViews();
+    }
+
+    // Set up Views
+    private void initializeViews () {
         userNumber = findViewById(R.id.userInput);
         switchButton = findViewById(R.id.switchBtn);
+
+        // Bind data to list view
         listView = findViewById(R.id.mulitplicationTable);
 
         adapter = new ArrayAdapter<>(
@@ -48,30 +77,43 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
-            calculations.remove(position);
-            adapter.notifyDataSetChanged();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder
+                    .setTitle("Remove Item")
+                    .setMessage("Are you sure you want to remove " + parent.getItemAtPosition(position) + " from the list?")
+                    .setPositiveButton("Yes", (d, i) -> {
+                        // Notify user what number has been removed.
+                        Toast.makeText(this, parent.getItemAtPosition(position).toString() + " has been removed", Toast.LENGTH_SHORT).show();
+
+                        // Remove clicked item and update ListView
+                        calculations.remove(position);
+                        adapter.notifyDataSetChanged();
+                    })
+                    .setNegativeButton("No", null)
+                    .create().show();
         });
     }
 
     public void calculateData(View view) {
-        int[] tableValues = new int[10];
-        calculations.clear();
+        int[] products = new int[10];
+        calculations.clear();   // Clear list to only show latest calculation
 
+        // TODO: Add validation
         int userValue = Integer.parseInt(userNumber.getText().toString());
+        calculationsHistory.add(userValue);
 
         if (userValue > 0) {
             for (int i = 0; i < 10; i++) {
-                tableValues[i] = (i + 1) * userValue;
-                calculations.add(tableValues[i]);
+                products[i] = (i + 1) * userValue;
+                calculations.add(products[i]);
             }
         }
-        calculationTransfer.add(userValue);
         adapter.notifyDataSetChanged();
     }
 
     public void switchActivity(View view) {
         Intent switchIntent = new Intent(this, OtherActivity.class);
-        switchIntent.putExtra("history", calculationTransfer);
+        switchIntent.putExtra("history", calculationsHistory);
         startActivity((switchIntent));
     }
 }

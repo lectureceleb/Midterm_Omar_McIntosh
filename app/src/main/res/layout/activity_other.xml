@@ -8,6 +8,13 @@
     android:orientation="vertical"
     tools:context=".OtherActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_colour"
+        />
+
     <Button
         android:id="@+id/returnBtn"
         android:layout_width="match_parent"

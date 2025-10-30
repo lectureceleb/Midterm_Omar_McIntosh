@@ -2,6 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
     <color name="main_colour">#40E0D0</color>
     <color name="accent_colour">#FFF0AB</color>
     <color name="button_colour">#00A86B</color>

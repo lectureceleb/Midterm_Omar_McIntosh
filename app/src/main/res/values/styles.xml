@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="menu_styling">
+        <item name="android:background">@color/main_colour</item>
+    </style>
+</resources>
