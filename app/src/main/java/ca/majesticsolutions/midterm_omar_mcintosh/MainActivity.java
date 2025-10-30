@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText userNumber;
     private ArrayList<Integer> calculations = new ArrayList<>();
+    private ArrayList<Integer> calculationTransfer = new ArrayList<>();
     private ArrayAdapter<Integer> adapter;
     private ListView listView;
     Button switchButton;
@@ -58,13 +59,13 @@ public class MainActivity extends AppCompatActivity {
                 calculations.add(tableValues[i]);
             }
         }
+        calculationTransfer.add(userValue);
         adapter.notifyDataSetChanged();
     }
 
     public void switchActivity(View view) {
         Intent switchIntent = new Intent(this, OtherActivity.class);
-        // Add data to transfer
-
+        switchIntent.putExtra("history", calculationTransfer);
         startActivity((switchIntent));
     }
 }

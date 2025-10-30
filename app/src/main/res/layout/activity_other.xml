@@ -12,8 +12,17 @@
         android:id="@+id/returnBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Return"
+        android:text="Back"
+        android:backgroundTint="@color/button_colour"
+        android:textColor="@color/black"
         android:onClick="returnToMain"
+        />
+
+    <ListView
+        android:id="@+id/userHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/returnBtn"
         />
 
 </LinearLayout>
